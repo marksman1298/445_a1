@@ -36,13 +36,14 @@ def connection(args, hostName, port, request):
     response = sock.recv(1024, socket.MSG_WAITALL)
     response = response.decode("UTF-8")
     
-    if args.VERBOSE:
-        print(response)  
-    else:
+    if not args.VERBOSE:
         responseBody = response.split("\r\n\r\n")[1]
-        print(responseBody)
-    
-        
+        # print(responseBody)
+    if args.OUTPUTFILE:
+        with open(args.OUTPUTFILE, mode="w") as f:
+                f.write(response)
+    else:
+        print(response)
 
 def formatPost(args):
     if args.DATA and args.FILE:
